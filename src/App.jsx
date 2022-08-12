@@ -9,10 +9,10 @@ export function App() {
   return (
     <Container>
       <Title>Contact App</Title>
-      <MyForm />
+      {/* <MyForm /> */}
       <Title>Search by name</Title>
-      <Filter />
-      <ContactsList />
+      {/* <Filter /> */}
+      {/* <ContactsList /> */}
     </Container>
   );
 }
