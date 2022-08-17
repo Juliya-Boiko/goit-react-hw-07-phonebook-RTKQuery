@@ -1,6 +1,4 @@
 import { nanoid } from 'nanoid';
-import { useDispatch, useSelector } from 'react-redux';
-import { addItem } from 'redux/contacts';
 import { Formik, ErrorMessage } from 'formik';
 import {
   ContactForm,
@@ -11,7 +9,6 @@ import {
   PrimaryButtonIcon,
 } from './Form.styled';
 import * as yup from 'yup';
-import { getItemsValue } from 'redux/selectors';
 import { useGetAllContactsQuery, useAddContactMutation } from 'api/axios';
 
 const mySchema = yup.object().shape({
@@ -21,9 +18,7 @@ const mySchema = yup.object().shape({
 
 export const MyForm = () => {
   const [addContact] = useAddContactMutation();
-const { data: items, error, isLoading } = useGetAllContactsQuery();
-  // const items = useSelector(getItemsValue);
-  const dispatch = useDispatch();
+  const { data: items } = useGetAllContactsQuery();
 
   const validateContact = data => {
     const normalizedValue = data.name.toLowerCase();
@@ -58,7 +53,6 @@ const { data: items, error, isLoading } = useGetAllContactsQuery();
       return;
     } else {
       addContact(newName);
-      // dispatch(addItem(newName));
     }
     resetForm();
   };

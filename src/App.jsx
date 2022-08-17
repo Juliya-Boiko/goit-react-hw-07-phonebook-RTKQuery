@@ -12,7 +12,7 @@ export function App() {
       <Title>Contact App</Title>
       <MyForm />
       <Title>Search by name</Title>
-      {/* <Filter /> */}
+      <Filter />
       <ContactsList />
     </Container>
   );

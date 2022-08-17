@@ -1,44 +1,26 @@
-import { useSelector, useDispatch } from 'react-redux/es/exports';
+import { useSelector } from 'react-redux/es/exports';
 import { ContactsListItem, ContactsListButton } from './ContactsList.styled';
 import { IoCloseOutline } from 'react-icons/io5';
-import { useEffect } from 'react';
-import { fetchContacts } from 'redux/operations';
-import { deleteItem } from 'redux/contacts';
-import { getItemsValue, getFilterValue } from 'redux/selectors';
 import { useGetAllContactsQuery, useDeleteContactMutation } from 'api/axios';
-
+import { Loader } from 'components/Loader/Loader';
 export const ContactsList = () => {
-  const dispatch = useDispatch();
-  const filter = useSelector(getFilterValue);
-  // const items = useSelector(getItemsValue);
+  const { data: items, isLoading } = useGetAllContactsQuery();
+  const [deleteContact] = useDeleteContactMutation();
+  const filter = useSelector(state => state.filter.filterValue);
 
-  const { data: items, error, isLoading } = useGetAllContactsQuery();
-  const [deleteContact, result] = useDeleteContactMutation();
-
-  
-  // console.log(useDeleteContactMutation());
-  // console.log(isLoading);
-
-  // useEffect(() => {
-  //   dispatch(fetchContacts());
-  // }, [dispatch]) 
-
-  // const normalizedValue = filter.toLowerCase();
-  // const filteredArray = items.filter(option =>
-  //  option.name.toLowerCase().includes(normalizedValue)
-  // );
-
-  // const deleteContact = contactId => {
-  //   // dispatch(deleteItem(contactId));
-    
-  // };
+  const filteredData = () => {
+    if (items) {
+      const filteredArray = items.filter(item => item.name.toLowerCase().includes(filter.toLowerCase()));
+      return filteredArray;
+    }
+  };
 
   return (
     <div>
-      {isLoading && <p>Loading...</p>}
+      {isLoading && <Loader />}
       <ul>
         {items && 
-        items.map(({ id, name, phone }) => {
+        filteredData().map(({ id, name, phone }) => {
           return (
             <ContactsListItem key={id}>
               {name}: {phone}
