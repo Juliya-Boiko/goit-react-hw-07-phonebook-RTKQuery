@@ -5,42 +5,55 @@ import { useEffect } from 'react';
 import { fetchContacts } from 'redux/operations';
 import { deleteItem } from 'redux/contacts';
 import { getItemsValue, getFilterValue } from 'redux/selectors';
+import { useGetAllContactsQuery, useDeleteContactMutation } from 'api/axios';
 
 export const ContactsList = () => {
   const dispatch = useDispatch();
   const filter = useSelector(getFilterValue);
-  const items = useSelector(getItemsValue);
+  // const items = useSelector(getItemsValue);
 
-  useEffect(() => {
-    dispatch(fetchContacts());
-  }, [dispatch]) 
+  const { data: items, error, isLoading } = useGetAllContactsQuery();
+  const [deleteContact, result] = useDeleteContactMutation();
 
-  const normalizedValue = filter.toLowerCase();
-  const filteredArray = items.filter(option =>
-   option.name.toLowerCase().includes(normalizedValue)
-  );
+  
+  // console.log(useDeleteContactMutation());
+  // console.log(isLoading);
 
-  const deleteContact = contactId => {
-    dispatch(deleteItem(contactId));
-  };
+  // useEffect(() => {
+  //   dispatch(fetchContacts());
+  // }, [dispatch]) 
+
+  // const normalizedValue = filter.toLowerCase();
+  // const filteredArray = items.filter(option =>
+  //  option.name.toLowerCase().includes(normalizedValue)
+  // );
+
+  // const deleteContact = contactId => {
+  //   // dispatch(deleteItem(contactId));
+    
+  // };
 
   return (
-    <ul>
-      {filteredArray.map(({ id, name, phone }) => {
-        return (
-          <ContactsListItem key={id}>
-            {name}: {phone}
-            <ContactsListButton
-              onClick={() => {
-                deleteContact(id);
-              }}
-            >
-              <IoCloseOutline />
-              Delete
-            </ContactsListButton>
-          </ContactsListItem>
-        );
-      })}
-    </ul>
+    <div>
+      {isLoading && <p>Loading...</p>}
+      <ul>
+        {items && 
+        items.map(({ id, name, phone }) => {
+          return (
+            <ContactsListItem key={id}>
+              {name}: {phone}
+              <ContactsListButton
+                onClick={() => {
+                  deleteContact(id);
+                }}
+              >
+                <IoCloseOutline />
+                Delete
+              </ContactsListButton>
+            </ContactsListItem>
+          );
+        })}
+      </ul>
+    </div>
   );
 };

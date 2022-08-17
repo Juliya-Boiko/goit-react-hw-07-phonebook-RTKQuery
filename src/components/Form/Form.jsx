@@ -12,6 +12,7 @@ import {
 } from './Form.styled';
 import * as yup from 'yup';
 import { getItemsValue } from 'redux/selectors';
+import { useGetAllContactsQuery, useAddContactMutation } from 'api/axios';
 
 const mySchema = yup.object().shape({
   name: yup.string().min(2).required(),
@@ -19,7 +20,9 @@ const mySchema = yup.object().shape({
 });
 
 export const MyForm = () => {
-  const items = useSelector(getItemsValue);
+  const [addContact] = useAddContactMutation();
+const { data: items, error, isLoading } = useGetAllContactsQuery();
+  // const items = useSelector(getItemsValue);
   const dispatch = useDispatch();
 
   const validateContact = data => {
@@ -54,7 +57,8 @@ export const MyForm = () => {
       alert(`${newName.name} already exist`);
       return;
     } else {
-      dispatch(addItem(newName));
+      addContact(newName);
+      // dispatch(addItem(newName));
     }
     resetForm();
   };

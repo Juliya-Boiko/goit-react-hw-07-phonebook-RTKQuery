@@ -6,13 +6,14 @@ import { Filter } from './components/Filter/Filter';
 import { ContactsList } from './components/ContactsList/ContactsList';
 
 export function App() {
+
   return (
     <Container>
       <Title>Contact App</Title>
-      {/* <MyForm /> */}
+      <MyForm />
       <Title>Search by name</Title>
       {/* <Filter /> */}
-      {/* <ContactsList /> */}
+      <ContactsList />
     </Container>
   );
 }

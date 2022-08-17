@@ -1,5 +1,4 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { contactsSlice } from './contacts';
 import { contactsApi } from 'api/axios';
 
 export const store = configureStore({
