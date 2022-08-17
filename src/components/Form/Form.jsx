@@ -9,7 +9,7 @@ import {
   PrimaryButtonIcon,
 } from './Form.styled';
 import * as yup from 'yup';
-import { useGetAllContactsQuery, useAddContactMutation } from 'api/axios';
+import { useGetAllContactsQuery, useAddContactMutation } from 'api/contactsApi';
 
 const mySchema = yup.object().shape({
   name: yup.string().min(2).required(),

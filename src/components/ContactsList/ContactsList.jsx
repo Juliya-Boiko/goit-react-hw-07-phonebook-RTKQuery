@@ -1,8 +1,9 @@
 import { useSelector } from 'react-redux/es/exports';
 import { ContactsListItem, ContactsListButton } from './ContactsList.styled';
 import { IoCloseOutline } from 'react-icons/io5';
-import { useGetAllContactsQuery, useDeleteContactMutation } from 'api/axios';
+import { useGetAllContactsQuery, useDeleteContactMutation } from 'api/contactsApi';
 import { Loader } from 'components/Loader/Loader';
+
 export const ContactsList = () => {
   const { data: items, isLoading } = useGetAllContactsQuery();
   const [deleteContact] = useDeleteContactMutation();
